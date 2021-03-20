@@ -21,17 +21,18 @@ async def edit_message(message_id):
             message_id=message_id,
             caption=CAPTION
         )
+    except exceptions.MessageNotModified:
+        logger.error('Message with ID:%s caption equals %s', message_id, CAPTION)
     except exceptions.MessageIdInvalid:
-        logger.error('Message with ID %s not found', message_id)
+        logger.error('Message with ID:%s not found.', message_id)
     except exceptions.RetryAfter as exc:
-        logger.error('Flood limit is exceeded on "%s". Sleep %d seconds.', message_id, exc.timeout)
+        logger.error('Flood limit is exceeded on ID:"%s". Sleep %d seconds.', message_id, exc.timeout)
         await asyncio.sleep(exc.timeout)
         await edit_message(message_id)
 
 async def channel_message_handler(message):
     logger.debug(message)
     await edit_message(message.message_id)
-
 
 
 dispatcher.register_channel_post_handler(
