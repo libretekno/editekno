@@ -1,1 +1,1 @@
-web: python3 -m forwtekno
+web: python3 -m editekno
