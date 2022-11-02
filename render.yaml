@@ -1,0 +1,21 @@
+# Schema documented at https://render.com/docs/yaml-spec
+services:
+  - type: web # valid values: https://render.com/docs/yaml-spec#type
+    name: editekno
+    repo: https://github.com/Mehavoid/editekno.git
+    branch: master
+    env: python # valid values: https://render.com/docs/yaml-spec#environment
+    plan: free # optional; defaults to starter
+    region: frankfurt # https://render.com/docs/regions
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python -m editekno"
+    numInstances: 1
+    envVars:
+      - key: API_TOKEN
+        sync: false
+      - key: CAPTION
+        sync: false
+      - key: CHANNEL
+        sync: false
+      - key: PYTHON_VERSION # https://render.com/docs/python-version
+        value: 3.9.13
