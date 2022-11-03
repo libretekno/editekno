@@ -35,13 +35,19 @@ try:
     API_TOKEN = os.environ['API_TOKEN']
     CHANNEL = os.environ['CHANNEL']
     CAPTION = os.environ['CAPTION']
-    HEROKU_APP_NAME = os.environ['APP_NAME']
     PORT = int(os.environ['PORT'])
 except KeyError as exc:
     logger.error(f'{ exc } environment variables are missing!')
     raise SystemExit(1)
 
-WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
+if 'RENDER' in os.environ:
+    WEBHOOK_HOST = f'https://{os.environ["RENDER_EXTERNAL_HOSTNAME"]}'
+elif 'DYNO' in os.environ:
+    WEBHOOK_HOST = f'https://{os.environ["APP_NAME"]}.herokuapp.com'
+else:
+    logger.error('No runtime environment found!')
+    raise SystemExit(1)
+
 WEBHOOK_PATH = f'/bot/{API_TOKEN}'
 WEBHOOK_URL = f'{WEBHOOK_HOST}{WEBHOOK_PATH}'
 HOST = '0.0.0.0'
