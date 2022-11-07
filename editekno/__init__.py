@@ -19,7 +19,7 @@ try:
     CAPTION = os.environ['CAPTION']
     PORT = int(os.environ['PORT'])
 except KeyError as exc:
-    logger.error(f'{ exc } environment variables are missing!')
+    logger.error(f'{exc} environment variables are missing!')
     raise SystemExit(1)
 
 if 'RENDER' in os.environ:
